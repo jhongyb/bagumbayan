@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bagumbayan ICT-Section</title>
+    {%load static%}
+    {%load bootstrap5%}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load humanize %}
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="ico" href="{% static 'img/BICT.png' %}">
+</head>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: rgb(106, 0, 0);">
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="#" style="font-family: 'Arial';font-size:xx-large;">
+                <img src="{% static 'img/BICT.png' %}"  style="width:60px;" class="rounded-pill"> 
+                <b>TECH4ED BAGUMBAYAN DIGITAL WORKPLACE & ICT CENTER</b>
+            </a>
+            {%if user.is_authenticated %}
+            <a class="nav-link" href="{%url 'logout'%}" style="color: white;border-radius: 20px;"> <i class="fas fa-user fa-lg"> </i> Welcome {{user}}   <i class="fas fa-sign-out fa-lg" style="margin-left: 5px;"> </i> Logout</a>
+            {%else%}
+            <a class="nav-link" href="/" style="color: aliceblue;"><i class="fas fa-user"></i> Login</a>
+            {%endif%}
+        </div>
+      </nav>
+  
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" href="{%url 'employee' %}"><img src="{% static 'img/HRMO.jpg'%}"  style="width:30px;" class="rounded-pill"> Human Resourses</a>
+        </li>
+
+        <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-building fa-lg"></i> General Services</a></li>
+        <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-heartbeat fa-lg"></i> Health</a></li>
+        <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-universal-access fa-lg"></i> Social & Development</a></li>
+        <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-signal fa-lg"></i> Information & Communications</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin"><i class="fas fa-tools fa-lg"></i>  Admin Settings</a>
+          </li>
+    </ul>
+<div>
+{%block main%}
+
+{%endblock%}
+</div>
+    
+</body>
+<style>
+  .fas{color: brown;}
+  .form-control,.form-select{background-color: rgb(254, 218, 218);}
+</style>
+</html>

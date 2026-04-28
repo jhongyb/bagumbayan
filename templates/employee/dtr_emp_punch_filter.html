@@ -1,0 +1,30 @@
+{%extends 'employee/dtr.html'%}
+{%block dtr%}
+<div class="container" style="width: 40%;margin-top: 5%;">
+<form  method="post">
+{% csrf_token %}
+<label for="op1">Daily Time Record</label>
+<input type="radio" name="opt" id="op1" value="1" class="form-option" Option=1>
+<label for="op2">Punch State Report</label>
+<input type="radio" name="opt" id="op2" value="2" class="form-option">
+<label for="op3">Late/Undertime Report</label>
+<input type="radio" name="opt" id="op3" value="3" class="form-option">
+<hr>
+<label for="">Biometric ID</label>
+<input type="text" class="form-control" value="{{data.biometric_number}}" disabled>
+<label for="">Employee Name</label>
+<input type="text" class="form-control" value="{{data}}" disabled>
+<hr>
+<label for="" name="emptxt">Start Date</label>
+<input type="date" name="startdate" id="" class="form-control">
+<label for="" name="emptxt">End Date</label>
+<input type="date" name="enddate" id="" class="form-control">
+<hr>
+<button type="submit" class="btn btn-primary">Generate</button>
+</form>
+
+</div>
+<style>
+    
+</style>
+{%endblock%}

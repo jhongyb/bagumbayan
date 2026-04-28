@@ -1,0 +1,36 @@
+<p style="text-align: center;border-bottom: 1px dashed gray;">REPUBLIC OF THE PHILIPPINES <br>
+    PROVINCE OF SULTAN KUDARAT <br>
+    MUNICIPALITY OF BAGUMBAYAN <br>
+    <br><br>
+
+    HUMAN RESOURCE MANAGEMENT OFFICE
+    <br>
+    PUNCH STATE REPORT <br>
+    from {{s}} to {{e}} <br>
+
+</p>
+<p><b>{{emp.biometric_number}} {{emp}}</b><br>
+    {{emp.position}}<br>
+    {{emp.dept}}
+</p>
+<table style="width: 100%;">
+    <thead>
+        <th>DATE</th>
+        <th>TIME</th>
+        <th>PUNCH STATE</th>
+    </thead>
+    <tbody>
+        {%for i in data%}
+        <tr>
+            <td>{{i.bio_date}}</td>
+            <td style="text-align: center;">{{i.bio_time|time:"H:i a"}}</td>
+            <td>{{i.bio_punchstate}}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+<style>
+    *{font-family: arial;font-size: small;}
+    table,th,td,tr{border: 1px solid gray;border-collapse: collapse;}
+    td{padding: 2px;}
+</style>

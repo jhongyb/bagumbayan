@@ -1,0 +1,22 @@
+{%extends 'employee/employee.html'%}
+{%block emp%}
+<div style="display: grid;grid-template-columns: 10% 90%;padding: 2px;height: 1000px;">
+<div style="height: 1000px;">
+    <ul class="nav nav-item" >
+
+        <li class="nav-item" >
+            <a class="nav-link" href="{% url 'dtr_employee'%}"  role="tab">Employees</a>
+        </li>
+        <li class="nav-item" >
+            <a class="nav-link" href="{% url 'dtr_department'%}"  role="tab">Departments</a>
+        </li>
+    </ul>
+</div>
+
+<div class="container-fluid p-3" style="border: 1px solid maroon;">
+    {%block dtr%}
+    
+    {%endblock%}
+    </div>
+</div>
+{%endblock%}

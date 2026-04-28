@@ -1,0 +1,48 @@
+<p style="text-align: center;">REPUBLIC OF THE PHILIPPINES <br>
+    PROVINCE OF SULTAN KUDARAT <br>
+    MUNICIPALITY OF BAGUMBAYAN <br>
+    <br><br>
+
+    HUMAN RESOURCE MANAGEMENT OFFICE
+    <br>
+    LATE/UNDERTIME REPORT <br>
+    from {{s}} to {{e}}
+</p>
+<table style="width: 100%;">
+    <thead>
+        <tr>
+        <th rowspan="2">NO</th>
+        <th rowspan="2">BIO NO</th>
+        <th rowspan="2">EMPLOYEE</th>
+        <th rowspan="2">OFFICE</th>
+        <th rowspan="2">TYPE</th>
+        <th colspan="4">LATE / UNDERTIME</th>
+        <th rowspan="2">TOTAL HOURS</th>
+        </tr>
+        <th>CHECK IN</th>
+        <th>BREAK IN</th>
+        <th>BREAK OUT</th>
+        <th>CHECK OUT</th>
+    </thead>
+    <tbody>
+        {%for i in df%}
+        <tr>
+            <td style="text-align: center;">{{forloop.counter}}</td>
+            <td style="text-align: center;">{{i.no}}</td>
+            <td>{{i.emp}}</td>
+            <td>{{i.dept}}</td>
+            <td>{{i.typ}}</td>
+            <td>{{i.cin}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+<style>
+    *{font-family: arial;font-size: small;}
+    table,th,td,tr{border: 1px solid gray;border-collapse: collapse;}
+    td{padding: 2px;}
+</style>

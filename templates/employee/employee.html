@@ -1,0 +1,27 @@
+{%extends 'base.html'%}
+{%block main%}
+<ul class="nav nav-tabs" id="mytab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" href="{%url 'employee_information' %}"  role="tab">Employee Information</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" href="{%url 'dtr'%}"  role="tab">Daily Time Records</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" href="#"  role="tab">Department</a>
+        </li>
+    </ul>
+<div class="col" style="padding: 10px;">
+                {%if messages%}
+                <ul class="messages" >
+                    {%for m in messages%}
+                        <li  class="alert alert-{{message.level_tag|lower}}" role="alert" style="color: red;">{{m}}{{message.tags}}</li>
+                    {%endfor%}
+                </ul>
+                {%endif%}
+</div>
+<div class="container-fluid p-3">
+{%block emp%}
+{%endblock%}
+</div>
+{%endblock%}

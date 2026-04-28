@@ -1,0 +1,45 @@
+<p style="text-align: center;">Republic of the Philippines <br>Province of Sultan Kudarat <br>Municipality of Bagumbayan <br><br>
+<b>HUMAN RESOURCE MANAGEMENT OFFICE</b>
+<br>
+<br>
+LATE/UNDERTIME REPORT
+</p>
+<p>{{emp.lastname}},{{emp.firstname}} {{emp.middlename}} {{emp.extname}} <br>
+  <b>{{emp.dept}}</b><br>
+  {{myr}}
+</p>
+<table>
+    <thead>
+        <tr>
+            <th rowspan="2">DATE</th>
+            <th colspan="2">LATE</th>
+            <th colspan="2">UNDERTIME</th>
+            <th rowspan="2">HOURS</th>
+        </tr>
+
+        <tr>
+        <th>CIN</th>
+        <th>BIN</th>
+        <th>BOUT</th>
+        <th>COUT</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for i in data%}
+        <tr>
+            <td style="text-align: center;">{{i.i}}</td>
+            <td style="text-align: center;">{{i.cin}}</td>
+            <td style="text-align: center;">{{i.bin}}</td>
+            <td style="text-align: center;">{{i.bout}}</td>
+            <td style="text-align: center;">{{i.cout}}</td>
+            <td style="text-align: center;">{{i.total}}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+<P style="text-align: right;">TOTAL HOURS : {{t}}</P>
+<style>
+    *{font-family: 'arial';font-size: small;}
+    table{width: 100%;}
+    table,th,tr,td{border: 1px solid gray;border-collapse: collapse;}
+</style>

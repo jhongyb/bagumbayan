@@ -1,0 +1,39 @@
+{%extends 'employee/dtr.html'%}
+{%block dtr%}
+<div class="row">
+<form method="post" class="col-4 d-block flex-nowrap justify-content-start d-sm-flex mb-2">
+                     {% csrf_token %} 
+                    <input type="search" class="form-control" style="margin: 0;" name="txtsearch">
+                    <button class="btn btn-outline-primary" type="submit" style="margin-left: 5px;"><i class="fas fa-search fa-lg"></i></button>
+</form>
+<!-- <div class="col d-block flex-nowrap justify-content-end d-sm-flex">           
+                <a class="btn btn-outline-primary m-1" href="#"><i class="fas fa-plus fa-lg" style="color: blue;"></i> New Employee</a>
+</div> -->
+</div>          
+<table class="table table-bordered table-hover table-sm">
+<thead style="text-align: center;">
+    <th>BIOMETRIC NUMBER</th>
+    <th>LAST NAME</th>
+    <th>FIRST NAME</th>
+    <th>MIDDLE NAME</th>
+    <th>EXT NAME</th>
+    <th>POSITION</th>
+    <th>OFFICE</th>
+    <th>ACTIONS</th>
+</thead>
+<tbody>
+    {%for i in data%}
+    <tr>
+        <td>{{i.biometric_number}}</td>
+        <td>{{i.lastname}}</td>
+        <td>{{i.firstname}}</td>
+        <td>{{i.middlename}}</td>
+        <td>{{i.extname}}</td>
+        <td></td>
+        <td>{{i.dept}}</td>
+        <td style="text-align: center;"><a href="{%url 'dtr_emp_punch_filter' pk=i.id%}" class="btn btn-outline-success btn-sm"><i class="fas fa-regular fa-fingerprint"></i></a></td>
+    </tr>
+    {%endfor%}
+</tbody>
+</table>
+{%endblock%}
