@@ -1,0 +1,35 @@
+{%extends 'mpoc/eo.html'%}
+{% load crispy_forms_tags %}
+{%block eo%}
+<div class="container">
+    <h3>NEW EXECUTIVE ORDER</h3>
+    <hr>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col">
+                {{form.eo_date|as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.eo_number|as_crispy_field}}
+            </div>
+
+        </div>
+        <div class="row">
+                <div class="col">
+                    {{form.eo_title|as_crispy_field}}
+                </div>
+                <div class="col">
+                    {{form.eo_file|as_crispy_field}}
+                </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary btn-sm"> Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+{%endblock%}

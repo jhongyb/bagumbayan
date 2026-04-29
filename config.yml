@@ -1,7 +1,0 @@
-tunnel: <7617bc39-0bba-4ac8-8850-226837bae3da>
-credentials-file: /path/to/your/credentials.json
-
-ingress:
-  - hostname: <central.ictbagumbayan.us>
-    service: http://localhost:8000
-  - service: http_status:404
