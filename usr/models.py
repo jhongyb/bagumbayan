@@ -9,5 +9,10 @@ class Page(models.Model):
 class ViewAccess(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     page=models.ForeignKey(Page,on_delete=models.CASCADE)
+
+class Barangay(models.Model):
+    barangay_name=models.CharField(max_length=100)
+    def __str__(self):
+        return self.barangay_name
     
     

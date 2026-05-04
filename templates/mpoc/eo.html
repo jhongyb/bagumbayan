@@ -9,7 +9,8 @@
             <a class="nav-link" href="{%url 'dtr'%}"  role="tab">New EO</a>
         </li>
     </ul> -->
-<div class="col" style="padding: 10px;">
+<h4>EXECUTIVE ORDERS</h4>
+<div class="col">
                 {%if messages%}
                 <ul class="messages" >
                     {%for m in messages%}
@@ -47,7 +48,7 @@
             <td>{{i.eo_number}}</td>
             <td>{%if i.eo_file%} <i class="fas fa-paperclip" style="color: green;"></i> {%else%} <i class="fas fa-x"></i>{%endif%}</td>
             <td style="text-align: right;">
-                <a href="" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
+                <a href="{%url 'mpoc_deleteeo' pk=i.id%}" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></a>
                 <a href="{%url 'mpoc_updateeo' pk=i.id%}" class="btn btn-outline-success btn-sm"><i class="fas fa-pen"></i></a>
                 <a href="{%url 'mpoc_downloadeo' pk=i.id%}" class="btn btn-outline-primary btn-sm"><i class="fas fa-download"></i></a>
             </td>

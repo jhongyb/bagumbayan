@@ -1,0 +1,35 @@
+{%extends 'mpoc/ordinance.html'%}
+{% load crispy_forms_tags %}
+{%block ordinance%}
+<div class="container">
+    <h3>NEW ORDINANCE</h3>
+    <hr>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col">
+                {{form.ordinance_date|as_crispy_field}}
+            </div>
+            <div class="col">
+                {{form.ordinance_number|as_crispy_field}}
+            </div>
+
+        </div>
+        <div class="row">
+                <div class="col">
+                    {{form.ordinance_title|as_crispy_field}}
+                </div>
+                <div class="col">
+                    {{form.ordinance_file|as_crispy_field}}
+                </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary btn-sm"> Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+{%endblock%}

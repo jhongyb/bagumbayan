@@ -1,0 +1,45 @@
+{%extends 'mpoc/incidents/incident.html'%}
+{% load crispy_forms_tags %}
+{%block incident%}
+<div class="container">
+    <h3>NEW INCIDENT</h3>
+    <hr>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+       <div class="row">
+        <div class="col">
+            {{form.incident_number|as_crispy_field}}
+        </div>
+        <div class="col">{{form.barangay|as_crispy_field}}</div>
+        <div class="col">{{form.purok|as_crispy_field}}</div>
+       </div>
+       <div class="row">
+        <div class="col">{{form.incident_type|as_crispy_field}}</div>
+        <div class="col">{{form.crime_category|as_crispy_field}}</div>
+       </div>
+       <div class="row">
+        <div class="col">{{form.incident_datetime|as_crispy_field}}</div>
+        <div class="col">{{form.date_reported|as_crispy_field}}</div>
+        <div class="col">{{form.status|as_crispy_field}}</div>
+       </div>
+       <div class="row">
+        <div class="col">{{form.action_taken|as_crispy_field}}</div>
+       </div>
+       <div class="row">
+        <div class="col">{{form.narrative|as_crispy_field}}</div>
+       </div>
+       <div class="row">
+        <div class="col2">
+            {{form.incident_file|as_crispy_field}}
+        </div>
+       </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary btn-sm"> Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+{%endblock%}

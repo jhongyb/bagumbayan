@@ -1,0 +1,7 @@
+tunnel: 0e56dc8a-085a-429a-99cb-1104f51daace
+credentials-file: C:\Users\User\.cloudflared/606e3319-77b3-46f3-80ad-187f7c154656.json
+
+ingress:
+  - hostname: <subdomain.yourdomain.com>
+    service: http://localhost:8000
+  - service: http_status:404
