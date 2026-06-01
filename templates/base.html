@@ -46,7 +46,17 @@
     </ul>
 <div>
 {%block main%}
-
+    <center>
+    <div class="col" style="padding-top: 10%;margin:0">
+                {%if messages%}
+                <ul class="messages" >
+                    {%for m in messages%}
+                        <li  class="alert alert-{{message.level_tag|lower}}" role="alert" style="color: red;list-style: none    ;">{{m}}{{message.tags}}</li>
+                    {%endfor%}
+                </ul>
+                {%endif%}
+  </div>
+  </center>
 {%endblock%}
 </div>
     

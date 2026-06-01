@@ -1,7 +1,6 @@
 from django.db import models
 
 
-
 class Department(models.Model):
     department=models.CharField(max_length=20,unique=True, null=False)
     description=models.CharField(max_length=250,null=False)
@@ -30,4 +29,6 @@ class Biometric(models.Model):
     bio_date=models.DateField()
     bio_time=models.TimeField() 
     bio_punchstate=models.CharField(max_length=50)
+  
+
 

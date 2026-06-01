@@ -12,43 +12,60 @@ from datetime import datetime,time,date
 
 
 def parse_time(time_str):
-    # Check if the string is empty before parsing
           if not time_str:
                return None
           try:
                return datetime.strptime(time_str, "%H:%M:%S").time()
           except ValueError:
-               return None # Or handle incorrectly formatted strings
+               return None 
 
 class Skiptime:
-     def __init__(self,punch,schedule):
+     def __init__(self,punch,typ):
           self.p=punch
-          self.s=parse_time(schedule)
+          self.s=typ
           self.today=date.today()
-     
-     def late(self):
+
+
+     def lateundertime(self,cin=None,bout=None,bin=None,cout=None):
             if self.p:
-                 if self.p> self.s:
-                    p_dt=datetime.combine(self.today,self.p)
-                    s_dt=datetime.combine(self.today,self.s)
+               #LATE
+                 if self.s=='CI' and self.p > parse_time("08:00:00"):
+                    p_dt=datetime.combine(self.today,cin)
+                    s_dt=datetime.combine(self.today,parse_time("08:00:00"))
                     total_seconds=p_dt-s_dt
-                    return total_seconds.total_seconds()/60
-                 else:
-                      return 0
-            else:
-                 return 0
-            
-     def undertime(self):
-            if self.p:
-                 if self.p<self.s:
+                    
+                 elif self.s=='BI' and self.p > parse_time("13:00:00"):
                     p_dt=datetime.combine(self.today,self.p)
-                    s_dt=datetime.combine(self.today,self.s)
-                    total_seconds=s_dt-p_dt
-                    return total_seconds.total_seconds()/60
+                    s_dt=datetime.combine(self.today,parse_time("13:00:00"))
+                    total_seconds=p_dt-s_dt
+               # UNDERTIME REVERSE FUNCTION 
+                 elif self.s=='BO' and bout==None:
+                    return 0
+
+                 elif self.s=='CO' and self.p < parse_time("17:00:00"):
+                    s_dt=datetime.combine(self.today,bout if bout!=None else bin)
+                    p_dt=datetime.combine(self.today,parse_time("17:00:00"))
+                    total_seconds=p_dt-s_dt          
                  else:
-                      return 0
-            else:
-                 return 0
+                         return 0
+                 return total_seconds.total_seconds()/60
+            
+          #NOT PUNCH
+            else:   
+               if self.s=='CI' and bout or bin:
+                    p_dt=datetime.combine(self.today,bout or bin)
+                    s_dt=datetime.combine(self.today,parse_time("08:00:00"))
+               if self.s=='CO' and bout or bin:
+                    s_dt=datetime.combine(self.today,bout or bin)
+                    p_dt=datetime.combine(self.today,parse_time("17:00:00"))
+               else:
+                         return 0
+               
+               total_seconds=p_dt-s_dt
+               return total_seconds.total_seconds()/60
+                
+     def punch_skip(self):
+          pass
 def min_hr(m):
     total_minutes = int(round(m))
     if total_minutes>0:
@@ -57,17 +74,93 @@ def min_hr(m):
           return f"{hours}:{minutes:02}:00"
     else:
          return ''
-def chk_punch(cin,cout,bin,bout,status):
-     ct='-' if cin>=0 else cin
-     l=[]
-     l.append((ct,cout,bin,bout))
-     if status:
-          return status
-     else:
-          if len(l)>0:
-               return "-"
+class Late_Undertime:
+     def __init__(self,status,cin,bout,bin,cout):
+          self.cin=cin
+          self.bout=bout
+          self.bin=bin
+          self.cout=cout
+          self.status=status
+          self.today=date.today()
+     def checkin(self):
+          if self.status=='CI':
+               if self.cin and self.cin > parse_time("08:00:00"):
+                    p_dt=datetime.combine(self.today,self.cin)
+                    s_dt=datetime.combine(self.today,parse_time("08:00:00"))
+               elif not self.cin and self.bout:
+                    p_dt=datetime.combine(self.today,self.bout)
+                    s_dt=datetime.combine(self.today,parse_time("08:00:00"))
+               elif not self.cin and not self.bout and self.bin:
+                    p_dt=datetime.combine(self.today,self.bin)
+                    s_dt=datetime.combine(self.today,parse_time("08:00:00"))
+               elif not self.cin and not self.bout and not self.bin and self.cout:
+                    p_dt=datetime.combine(self.today,self.cout)
+                    s_dt=datetime.combine(self.today,parse_time("08:00:00"))
+               else:
+                    return 0
+          total_seconds=p_dt-s_dt
+          return total_seconds.total_seconds()//60
+     def checkout(self):
+          if self.status=='CO':
+               if self.cout and self.cout < parse_time("17:00:00"):
+                    s_dt=datetime.combine(self.today,self.cout)
+                    p_dt=datetime.combine(self.today,parse_time("17:00:00"))
+               elif  not self.cout and self.bout:
+                    s_dt=datetime.combine(self.today,self.bout)
+                    p_dt=datetime.combine(self.today,parse_time("17:00:00"))
+               elif  not self.cout and not self.bout and not self.bin and self.cin:
+                    s_dt=datetime.combine(self.today,self.cin)
+                    p_dt=datetime.combine(self.today,parse_time("17:00:00"))
+               else:
+                    return 0
+          total_seconds=p_dt-s_dt
+          return total_seconds.total_seconds()//60
+     def breakin(self):
+          if self.status=='BI':
+               if self.bin and self.bin > parse_time("13:00:00"):
+                    p_dt=datetime.combine(self.today,self.bin)
+                    s_dt=datetime.combine(self.today,parse_time("13:00:00"))
+               elif not self.bin and self.cout:
+                    p_dt=datetime.combine(self.today,parse_time("13:00:00"))
+                    s_dt=datetime.combine(self.today,parse_time("13:00:00"))
+               else:
+                    return 0
+               
+          total_seconds=p_dt-s_dt
+          return total_seconds.total_seconds()//60
+     
+     def breakout(self):
+          if self.status=='BO':
+               if self.bout and self.bout < parse_time("12:00:00"):
+                    s_dt=datetime.combine(self.today,self.bin)
+                    p_dt=datetime.combine(self.today,parse_time("12:00:00"))
+               elif not self.bout:
+                    s_dt=datetime.combine(self.today,parse_time("13:00:00"))
+                    p_dt=datetime.combine(self.today,parse_time("13:00:00"))
+               else:
+                    return 0
+               
+          total_seconds=p_dt-s_dt
+          return total_seconds.total_seconds()//60
 
-          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def punchstate_report(iid,html):
        aydi=iid
@@ -150,7 +243,8 @@ def emp_lateover(iid,html):
             'encoding': "UTF-8",
             'enable-local-file-access': True,
             'title':"LATE/UNDERTIME",
-            'footer-Font-size':'8',
+            'footer-left':'© YB IT SOLUTIONS',
+            'footer-Font-size':'4',
        }
        config =pdfkit.configuration(wkhtmltopdf='.\static\wkhtmltopdf.exe') 
        pdf = pdfkit.from_string(html, False, configuration=config, 
@@ -166,6 +260,9 @@ class dtr_functions:
      def loop_date(self,m,y):
           return f"{y}-{str(m).zfill(2)}-{str(self.day).zfill(2)}"
      
+     def aydi(self,a):
+          return f"{a}"
+     
      def satsun(self,m,y):
           dyt=datetime.date(datetime.strptime(self.loop_date(m,y),'%Y-%m-%d'))
           if dyt.weekday()==5:
@@ -179,7 +276,7 @@ def department_report(iid,html):
        html=html
        options = {
           'page-size': 'A4',
-          'orientation':'landscape',
+          'orientation':'portrait',
           'encoding': "UTF-8",
             'margin-top': '0.5in',
             'margin-right': '0.2in',
@@ -188,8 +285,9 @@ def department_report(iid,html):
             'encoding': "UTF-8",
             'enable-local-file-access': True,
             'footer-right':'Page  [PAGE] of [topage]',
+            'footer-left':'© YB IT SOLUTIONS',
             'title':"PUNCH STATE",
-            'footer-Font-size':'8',
+            'footer-Font-size':'4',
        }
        config =pdfkit.configuration(wkhtmltopdf='.\static\wkhtmltopdf.exe') 
        pdf = pdfkit.from_string(html, False, configuration=config, 

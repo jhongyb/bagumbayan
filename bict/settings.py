@@ -36,6 +36,9 @@ INSTALLED_APPS = [
     'employee',
     'rangefilter',
     'mpoc',
+    'rbim',
+    'tech4ed',
+    
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -67,16 +70,21 @@ WSGI_APPLICATION = 'bict.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'bagumbayan',
         'USER': 'postgres',
         'PASSWORD': 'dtr2026',
         'HOST': '127.0.0.1',
         'PORT': '5432',
+    },
+    'rbim': {
+      'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'bagumbayan',
+        'USER': 'postgres',
+        'PASSWORD': 'dtr2026',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+        'OPTIONS':{'options':'-c search_path=rbim'}
     }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db/db.sqlite3',
-    # }
 }
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -121,3 +129,6 @@ SESSION_SAVE_EVERY_REQUEST=True
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 SESSION_COOKIE_SECURE=True
 SESSION_COOKIE_HTTPONLY=True
+DATABASES_ROUTERS=[
+    'usr.routers.DBRouter'
+]

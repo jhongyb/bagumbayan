@@ -6,43 +6,43 @@
     HUMAN RESOURCE MANAGEMENT OFFICE
     <br>
     LATE/UNDERTIME REPORT <br>
-    from {{s}} to {{e}}
+    from {{sd}} to {{ed}}
 </p>
+<b>OFFICE : {{dept}}</b>
 <table style="width: 100%;">
     <thead>
         <tr>
         <th rowspan="2">NO</th>
-        <th rowspan="2">BIO NO</th>
         <th rowspan="2">EMPLOYEE</th>
         <th rowspan="2">OFFICE</th>
         <th rowspan="2">TYPE</th>
-        <th colspan="4">LATE / UNDERTIME</th>
-        <th rowspan="2">TOTAL HOURS</th>
+        <th colspan="2">TOTAL HOURS OF LATE & UNDERTIME</th>
+        <th rowspan="2">TOTAL DAYS, HOURS & MINUTES</th>
         </tr>
-        <th>CHECK IN</th>
-        <th>BREAK IN</th>
-        <th>BREAK OUT</th>
-        <th>CHECK OUT</th>
+        <th>LATE</th>
+        <th>UNDERTIME</th>
     </thead>
     <tbody>
-        {%for i in df%}
+        {%for i in res%}
         <tr>
             <td style="text-align: center;">{{forloop.counter}}</td>
-            <td style="text-align: center;">{{i.no}}</td>
             <td>{{i.emp}}</td>
             <td>{{i.dept}}</td>
             <td>{{i.typ}}</td>
-            <td>{{i.cin}}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td style="text-align: center;">{{i.CIN}}</td>
+            <td style="text-align: center;">{{i.COUT}}</td>
+            <td style="text-align: center;">{{i.TOTAL}}</td>
         </tr>
         {%endfor%}
     </tbody>
 </table>
+<p style="text-align: center;">---------------------------------------------oO END Oo------------------------------------------------</p>
+<br>
+<P>Prepared by: <br><br> ______________________ <br><br><br><br><br> Noted by: <br><br> ______________________ </P>
 <style>
     *{font-family: arial;font-size: small;}
     table,th,td,tr{border: 1px solid gray;border-collapse: collapse;}
     td{padding: 2px;}
 </style>
+
+{{i}}

@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>BAGUMBAYAN ICT</title>
     {%load static%}
     {%load bootstrap5%}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
 </head>
 <body>
+
+
     <div class="container" style="padding: 20px;width: 30%;margin-top: 10%;">
         <center><img src="{%static 'img/BICT.png'%}" alt="" width="100px" ></center>
         <h1 style="text-align: center;color: teal;">{{company_name}}</h1>
@@ -20,8 +22,23 @@
             {{form}}
              <hr>
              <button class="btn btn-primary" type="submit">Submit</button>
+             <button class="btn btn-Success" type="submit">Reset</button>
         </form>
     </div>
+    <center>
+    <div class="col" style="padding: 0;margin:0">
+                {%if messages%}
+                <ul class="messages" >
+                    {%for m in messages%}
+                        <li  class="alert alert-{{message.level_tag|lower}}" role="alert" style="color: red;list-style: none    ;">{{m}}{{message.tags}}</li>
+                    {%endfor%}
+                </ul>
+                {%endif%}
+  </div>
+  </center>
+
+
+
     <p style="text-align: center;font-size: smaller;"> &copy 2026</p>
 </body>
 </html>

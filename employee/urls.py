@@ -10,6 +10,7 @@ urlpatterns=[
     path('DTR/Employees',views.Dtr_Employees, name='dtr_employee'),
     path('DTR/<pk>/Employees_punch_filter',views.Dtr_emp_punch_filter, name='dtr_emp_punch_filter'),
     path('DTR/Departments',views.Dtr_Department, name='dtr_department'),
+    
     path('DTR/Departments<pk>filter',views.department_report_filter, name='department_report_filter'),
     path('DTR/Late_Undertime/<pk>',views.department_dtr_late_undertime, name='department_dtr_late_undertime'),
 ]

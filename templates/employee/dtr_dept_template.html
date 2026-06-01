@@ -1,0 +1,67 @@
+
+<style>
+    *{font-size: 11;font-family: 'arial';}
+    #c, #c tr,#c td, #c th{border: 1px solid;text-align: center;font-size: 11;}
+    
+</style>
+
+
+<p style="text-align: center;margin: 0;">CSC FORM No. 48</p>
+<p style="text-align: center;margin: 0;font-family: 'Arial';font-size:large;">DAILY TIME RECORD</p>
+<br>
+<h3 style="text-align: center;margin: 0;padding: 0;font-family: 'Arial';font-size:medium">{{data}}</h3>
+<p style="text-align: center;margin: 0;padding: 0;border-top: 1px solid;">(Name)</p>
+<table style="width: 100%;">
+    <tr>
+        <td>For the Month of</td>
+        <td> : {{my}}</td>
+    </tr>
+    <!-- <tr>
+        <td>Official hours for (REGULAR Days)</td>
+        <td> : __________________________________</td>
+    </tr>
+    <tr>
+        <td>(Saturdays)</td>
+        <td> : __________________________________</td>
+    </tr> -->
+    
+</table>
+<table style="width: 100%;border: 1px solid ;border-collapse: collapse;" id="c">
+    <tr>
+        <td colspan="3">AM</td>
+        <td colspan="2">PM</td>
+        <td colspan="2">Undertime</td>
+    </tr>
+        <tr>
+        <td></td>
+        <td >Arrival</td>
+        <td >Departure</td>
+        <td >Arrival</td>
+        <td >Departure</td>
+        <td> Hours</td>
+        <td >Minutes</td>
+    </tr>
+{%for i in c%}
+
+<tr>
+    <td>{{i.i}}</td>
+    <td>{{i.cin|time:"h:i"}}</td>
+    <td>{{i.bout|time:"h:i"}}</td>
+    <td>{{i.bin|time:"h:i"}}</td>
+    <td>{{i.cout|time:"h:i"}}</td>
+    <td></td>
+    <td style="text-align: left;font-size: smaller;">{{i.wday}}</td>
+</tr>
+{%endfor%}
+</table>
+<p>I CERTIFY on my behalf that the above entries are true and correct report of hours of work performance, record of which was made
+    daily at the time of arrival at and departure from Office.
+</p>
+<br>
+<div style="width:100%; border-top: 1px solid;text-align: center;">(Signature)</div>
+<br>
+<p>Certified as to the prescribed office hours</p>
+<br>
+<h6 style="margin: 0;text-align: center;"></h6>
+<div style="width:100%; border-top: 1px solid;text-align: center;margin-top: 0;">In Charge <br>
+</div>

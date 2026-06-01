@@ -2,14 +2,14 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.http import FileResponse
 from django.db.models import Q
-from usr.access import mpoc_access
+from usr.access import restrict_mpoc
 from .models import ExecutiveOrder,Ordinance,Incident
 from .forms import EOForm,OrdinanceForm,IncidentForm
 from django.contrib import messages
 
 # Create your views here.
 @login_required
-@user_passes_test(mpoc_access,login_url='/home')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_home(request):
     return render(request,'mpoc.html')
 
@@ -17,7 +17,7 @@ def mpoc_home(request):
 #EXECUTIVE ORDER
 
 @login_required
-@user_passes_test(mpoc_access,login_url='/mpoc')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_eo(request):
     eo=ExecutiveOrder.objects.all().order_by('-eo_number')
     if request.method=='POST':
@@ -26,7 +26,7 @@ def mpoc_eo(request):
     return render(request,'mpoc/eo.html',{'eo':eo})
 
 @login_required
-@user_passes_test(mpoc_access,login_url='/mpoc')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_neweo(request):
     form=EOForm()
     if request.method=='POST':
@@ -41,7 +41,7 @@ def mpoc_neweo(request):
     return render(request,'mpoc/neweo.html',{'form':form})
 
 @login_required
-@user_passes_test(mpoc_access,login_url='/mpoc')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_updateeo(request,pk):
     data=get_object_or_404(ExecutiveOrder,id=pk)
     if request.method=='POST':
@@ -58,7 +58,7 @@ def mpoc_updateeo(request,pk):
 
 
 @login_required
-@user_passes_test(mpoc_access,login_url='/home')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_downloadeo(request,pk):
     eo=ExecutiveOrder.objects.get(id=pk)
     if eo.eo_file:
@@ -68,7 +68,7 @@ def mpoc_downloadeo(request,pk):
         return redirect('mpoc_eo')
     
 @login_required
-@user_passes_test(mpoc_access,login_url='/home')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_deleteeo(request,pk):
     eo=ExecutiveOrder.objects.get(id=pk)
     if eo:
@@ -82,7 +82,7 @@ def mpoc_deleteeo(request,pk):
 #ORDINANCE
 
 @login_required
-@user_passes_test(mpoc_access,login_url='/mpoc')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_ordinance(request):
     ordinance=Ordinance.objects.all().order_by('-ordinance_number')
     if request.method=='POST':
@@ -91,7 +91,7 @@ def mpoc_ordinance(request):
     return render(request,'mpoc/ordinance.html',{'ordinance':ordinance})
 
 @login_required
-@user_passes_test(mpoc_access,login_url='/mpoc')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_newordinance(request):
     form=OrdinanceForm()
     if request.method=='POST':
@@ -106,7 +106,7 @@ def mpoc_newordinance(request):
     return render(request,'mpoc/newordinance.html',{'form':form})
 
 @login_required
-@user_passes_test(mpoc_access,login_url='/mpoc')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_updateordinance(request,pk):
     data=get_object_or_404(Ordinance,id=pk)
     if request.method=='POST':
@@ -122,7 +122,7 @@ def mpoc_updateordinance(request,pk):
     return render(request,'mpoc/updateordinance.html',{'form':form})
 
 @login_required
-@user_passes_test(mpoc_access,login_url='/home')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_deleteordinance(request,pk):
     ordinance=Ordinance.objects.get(id=pk)
     if ordinance:
@@ -134,7 +134,7 @@ def mpoc_deleteordinance(request,pk):
         return redirect('mpoc_ordinance')
     
 @login_required
-@user_passes_test(mpoc_access,login_url='/home')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_downloadordinance(request,pk):
     ord=Ordinance.objects.get(id=pk)
     if ord.ordinance_file:
@@ -147,7 +147,7 @@ def mpoc_downloadordinance(request,pk):
 #INCIDENTS
 
 @login_required
-@user_passes_test(mpoc_access,login_url='/mpoc')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_incident(request):
     inc=Incident.objects.all().order_by('-incident_number')
     if request.method=='POST':
@@ -169,7 +169,7 @@ def mpoc_newincident(request):
     return render(request,'mpoc/incidents/newincident.html',{'form':form})
 
 @login_required
-@user_passes_test(mpoc_access,login_url='/mpoc')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_updateincidents(request,pk):
     data=get_object_or_404(Incident,id=pk)
     if request.method=='POST':
@@ -185,7 +185,7 @@ def mpoc_updateincidents(request,pk):
     return render(request,'mpoc/incidents/updateincident.html',{'form':form})
 
 @login_required
-@user_passes_test(mpoc_access,login_url='/home')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_downloadincident(request,pk):
     inc=Incident.objects.get(id=pk)
     if inc.incident_file:
@@ -195,7 +195,7 @@ def mpoc_downloadincident(request,pk):
         return redirect('mpoc_incident')
     
 @login_required
-@user_passes_test(mpoc_access,login_url='/home')
+@restrict_mpoc(message='Not Authorized to MPOC Page!',redirect_url='/home')
 def mpoc_deleteincident(request,pk):
     incident=Incident.objects.get(id=pk)
     if incident:

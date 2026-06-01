@@ -1,5 +1,5 @@
-{%extends 'employee/dtr.html'%}
-{%block dtr%}
+{%extends 'humanresource.html'%}
+{%block hr%}
 <table class="table table-bordered table-hover table-sm">
 <thead style="text-align: center;">
     <th>OFFICE</th>
@@ -11,8 +11,7 @@
     <tr>
         <td>{{i.department}}</td>
         <td>{{i.description}}</td>
-        <td style="text-align: center;"><a href="{%url 'department_report_filter' pk=i.id%}" class="btn btn-outline-success btn-sm"><i class="fas fa-regular fa-book"></i></a></td>
-
+        <td style="text-align: center;"><a href="{%url 'department_report_filter' pk=i.id%}" class="btn btn-outline-success btn-sm"><i class="fas fa-file-pdf "></i></a></td>
     </tr>
     {%endfor%}
 </tbody>
