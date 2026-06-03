@@ -9,6 +9,7 @@ from datetime import datetime
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from datetime import datetime,time,date
+from django.contrib import messages
 
 
 def parse_time(time_str):
@@ -144,24 +145,6 @@ class Late_Undertime:
           return total_seconds.total_seconds()//60
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def punchstate_report(iid,html):
        aydi=iid
        html=html
@@ -179,7 +162,7 @@ def punchstate_report(iid,html):
             'footer-right':'Page  [PAGE] of [topage]',
             'title':"PUNCH STATE",
             'footer-Font-size':'8',}
-       config =pdfkit.configuration(wkhtmltopdf='.\static\wkhtmltopdf.exe') 
+       config =pdfkit.configuration(wkhtmltopdf='./static/wkhtmltopdf') 
        pdf = pdfkit.from_string(html, False, configuration=config, 
        options=options)
        response = HttpResponse(pdf, content_type='application/pdf')
@@ -221,7 +204,7 @@ def emp_dtr(iid,html):
             'title':"DTR",
             'footer-Font-size':'8',
        }
-       config =pdfkit.configuration(wkhtmltopdf='.\static\wkhtmltopdf.exe') 
+       config =pdfkit.configuration(wkhtmltopdf='./static/wkhtmltopdf') 
        pdf = pdfkit.from_string(html, False, configuration=config, 
        options=options)
        response = HttpResponse(pdf, content_type='application/pdf')
@@ -246,7 +229,7 @@ def emp_lateover(iid,html):
             'footer-left':'© YB IT SOLUTIONS',
             'footer-Font-size':'4',
        }
-       config =pdfkit.configuration(wkhtmltopdf='.\static\wkhtmltopdf.exe') 
+       config =pdfkit.configuration(wkhtmltopdf='./static/wkhtmltopdf') 
        pdf = pdfkit.from_string(html, False, configuration=config, 
        options=options)
        response = HttpResponse(pdf, content_type='application/pdf')
@@ -258,40 +241,50 @@ class dtr_functions:
      def __init__(self,days):
           self.day=days
      def loop_date(self,m,y):
-          return f"{y}-{str(m).zfill(2)}-{str(self.day).zfill(2)}"
+          try:
+               return f"{y}-{str(m).zfill(2)}-{str(self.day).zfill(2)}"
+          except:
+               return ''
      
      def aydi(self,a):
           return f"{a}"
      
      def satsun(self,m,y):
-          dyt=datetime.date(datetime.strptime(self.loop_date(m,y),'%Y-%m-%d'))
-          if dyt.weekday()==5:
-               return 'SATURDAY'
-          elif dyt.weekday()==6:
-               return 'SUNDAY'
-          else:
+          try:
+               dyt=datetime.date(datetime.strptime(self.loop_date(m,y),'%Y-%m-%d'))
+               if dyt.weekday()==5:
+                    return 'SATURDAY'
+               elif dyt.weekday()==6:
+                    return 'SUNDAY'
+               else:
+                    return ''
+          except:
                return ''
 def department_report(iid,html):
-       aydi=iid
-       html=html
-       options = {
-          'page-size': 'A4',
-          'orientation':'portrait',
-          'encoding': "UTF-8",
-            'margin-top': '0.5in',
-            'margin-right': '0.2in',
-            'margin-bottom': '0.3in',
-            'margin-left': '0.2in',
-            'encoding': "UTF-8",
-            'enable-local-file-access': True,
-            'footer-right':'Page  [PAGE] of [topage]',
-            'footer-left':'© YB IT SOLUTIONS',
-            'title':"PUNCH STATE",
-            'footer-Font-size':'4',
-       }
-       config =pdfkit.configuration(wkhtmltopdf='.\static\wkhtmltopdf.exe') 
-       pdf = pdfkit.from_string(html, False, configuration=config, 
-       options=options)
-       response = HttpResponse(pdf, content_type='application/pdf')
-       response['Content-Disposition'] = 'inline; filename="'+f"{aydi}.pdf".format('Report','12')
-       return response
+       try:
+          aydi=iid
+          html=html
+          options = {
+               'page-size': 'A4',
+               'orientation':'portrait',
+               'encoding': "UTF-8",
+               'margin-top': '0.5in',
+               'margin-right': '0.2in',
+               'margin-bottom': '0.3in',
+               'margin-left': '0.2in',
+               'encoding': "UTF-8",
+               'enable-local-file-access': True,
+               'footer-right':'Page  [PAGE] of [topage]',
+               'footer-left':'© YB IT SOLUTIONS',
+               'title':"PUNCH STATE",
+               'footer-Font-size':'4',
+          }
+          config =pdfkit.configuration(wkhtmltopdf='./static/wkhtmltopdf') 
+          pdf = pdfkit.from_string(html, False, configuration=config, 
+          options=options)
+          response = HttpResponse(pdf, content_type='application/pdf')
+          response['Content-Disposition'] = 'inline; filename="'+f"{aydi}.pdf".format('Report','12')
+          return response
+       except Exception as e:
+            pass
+            

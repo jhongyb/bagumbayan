@@ -70,21 +70,21 @@ WSGI_APPLICATION = 'bict.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bagumbayan',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'dtr2026',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     },
-    'rbim': {
-      'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bagumbayan',
-        'USER': 'postgres',
-        'PASSWORD': 'dtr2026',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-        'OPTIONS':{'options':'-c search_path=rbim'}
-    }
+    # 'rbim': {
+    #   'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'postgres',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'dtr2026',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '5432',
+    #     'OPTIONS':{'options':'-c search_path=rbim'}
+    # }
 }
 AUTH_PASSWORD_VALIDATORS = [
     {
