@@ -28,7 +28,8 @@ def employeelist(request):
         if request.method=='POST':
             cri=request.POST['txtsearch']
             data=Employee.objects.filter(Q(employee_id__icontains=cri)|Q(lastname__icontains=cri)|
-                                        Q(firstname__icontains=cri)|Q(middlename__icontains=cri)).order_by('employee_id')
+                                        Q(firstname__icontains=cri)|Q(middlename__icontains=cri)
+                                        |Q(dept__department__icontains=cri)).order_by('employee_id')
             return render(request,'employee/employee_list.html',{'data':data})
     except Exception as e:
         messages.error(request,e)

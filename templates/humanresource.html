@@ -41,7 +41,7 @@
                <i class="fas fa-users fa-lg"></i> EMPLOYEE
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 300px;">
-                <li class="nav-item"><a href=""  class="nav-link"> EMPLOYEE  NEW</a></li>
+                <li class="nav-item"><a href="{%url 'newemployee'%}"  class="nav-link"> EMPLOYEE  NEW</a></li>
                 <li class="nav-item"><a href="{%url 'employeelist'%}"  class="nav-link"> EMPLOYEE LIST</a></li>
             </ul>
         </li> 
@@ -57,6 +57,15 @@
         </li> 
 
     </ul>
+<div class="col">
+                {%if messages%}
+                <ul class="messages" >
+                    {%for m in messages%}
+                        <li  class="alert alert-{{message.level_tag|lower}}" role="alert" style="color: red;">{{m}}{{message.tags}}</li>
+                    {%endfor%}
+                </ul>
+                {%endif%}
+</div>
 <div style="padding: 10px;">
 {%block hr%}
 {%endblock%}
@@ -64,7 +73,9 @@
     
 </body>
 <style>
-  .fas{color: brown;}
-  .form-control,.form-select{background-color: rgb(254, 218, 218);}
+  .fas{color: teal;}
+  .form-control,.form-select{background-color:#eef0ef;border-color: transparent;}
+  h4{background-color: brown;padding: 5px;color:white;border-radius: 20px;}
+  .container{border-color: brown;}
 </style>
 </html>

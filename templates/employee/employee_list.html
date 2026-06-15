@@ -31,7 +31,7 @@
         <td>{{i.extname}}</td>
         <td></td>
         <td>{{i.dept}}</td>
-        <td style="text-align: center;"><a href="" class="btn btn-outline-success btn-sm"><i class="fas fa-pen"></i></a></td>
+        <td style="text-align: center;"><a href="{%url 'updateemployee' pk=i.id %}" class="btn btn-outline-success btn-sm"><i class="fas fa-pen"></i></a></td>
     </tr>
     {%endfor%}
 </tbody>

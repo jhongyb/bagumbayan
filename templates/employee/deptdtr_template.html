@@ -8,7 +8,7 @@
 <p style="text-align: center;margin: 0;font-family: 'Arial';font-size:large;">DAILY TIME RECORD</p>
 <br>
 <h3 style="text-align: center;margin: 0;padding: 0;font-family: 'Arial';font-size:medium">
-     {{i.emp_info.firstname}} {{i.emp_info.middlename}} {{i.emp_info.lastname}} {{i.emp_info.extname}}</h3>
+     {{i.emp_info.firstname}} {{i.emp_info.middlename}} {{i.emp_info.lastname}} {%if i.emp_info.extname%}{{i.emp_info.extname}}{%else%} {%endif%}</h3>
 <p style="text-align: center;margin: 0;padding: 0;border-top: 1px solid;">(Name)</p>
 <table style="width: 100%;">
     <tr>
@@ -53,7 +53,7 @@
 </tr>
 {%endfor%}
 </table>
-<p>I CERTIFY on my behalf that the above entries are true and correct report of hours of work performance, record of which was made
+<p style="margin-top: 0;">I CERTIFY on my behalf that the above entries are true and correct report of hours of work performance, record of which was made
     daily at the time of arrival at and departure from Office.
 </p>
 <br>

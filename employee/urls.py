@@ -1,5 +1,8 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from . import views
+from . import employee
 
 urlpatterns=[
     path('employee/',views.employee, name='employee'),
@@ -14,5 +17,11 @@ urlpatterns=[
     
     path('DTR/Departments<pk>filter',views.department_report_filter, name='department_report_filter'),
     path('DTR/Late_Undertime/<pk>',views.department_dtr_late_undertime, name='department_dtr_late_undertime'),
-]
+
+
+    #employee Details
+    path('employee/Details/New',employee.newemployee, name='newemployee'),
+    path('employee/Details/Update/<pk>',employee.updateemployee, name='updateemployee'),
+
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
