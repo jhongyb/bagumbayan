@@ -1,0 +1,49 @@
+{%extends 'osca.html'%}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{%block osca%}
+<h5>SENIOR CITIZEN'S MASTER LIST</h5>
+<br>
+<center>
+<form method="post" class="col-4 d-block flex-nowrap justify-content-start d-sm-flex mb-2">
+                     {% csrf_token %} 
+                    <input type="search" class="form-control" style="margin: 0;" name="txtsearch" placeholder="Search . . . ">
+                    <button class="btn btn-outline-primary" type="submit" style="margin-left: 5px;"><i class="fas fa-search fa-lg"></i></button>
+</form>
+</center>
+<div style="width: 90%;margin: auto;">
+<table class="table table-hover">
+    <thead>
+        <th>ID NO</th>
+        <th>LASTNAME</th>
+        <th>FIRSTNAME</th>
+        <th>MIDDLENAME</th>
+        <th>EXTNAME</th>
+        <th>SEX</th>
+        <th>BIRTHDAY</th>
+        <th>PUROK / SITIO</th>
+        <th>BARANGAY</th>
+        <th>ACTIONS</th>
+    </thead>
+    <tbody>
+       {%for i in data%}
+       <tr>
+        <td>{{i.idno}}</td>
+        <td>{{i.lastname}}</td>
+        <td>{{i.firstname}}</td>
+        <td>{{i.middlename}}</td>
+        <td>{{i.extname}}</td>
+        <td>{{i.sex}}</td>
+        <td>{{i.birthday|date:'M-d-Y'}}</td>
+        <td>{{i.purok}}</td>
+        <td>{{i.barangay}}</td>
+        <td>
+            <a href="{%url 'updatesenior' pk=i.id %}" class="btn"><i class="fas fa-pen"> </i></a>
+            <a href="{%url 'deletesenior' pk=i.id %}" class="btn" ><i class="fas fa-trash" style="color: red;"> </i></a>
+        </td>
+       </tr>
+       {%endfor%}
+    </tbody>
+</table>
+</div>
+{%endblock%}

@@ -36,10 +36,17 @@
           <a class="nav-link" href="{%url 'employee' %}"><img src="{% static 'img/HRMO.jpg'%}"  style="width:30px;" class="rounded-pill"> Human Resourses</a>
         </li>
 
-        <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-building fa-lg"></i> General Services</a></li>
+        <!-- <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-building fa-lg"></i> General Services</a></li> -->
         <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-heartbeat fa-lg"></i> Health</a></li>
-        <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-universal-access fa-lg"></i> Social & Development</a></li>
-        <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-signal fa-lg"></i> Information & Communications</a></li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               <i class="fas fa-users fa-lg"></i> Social & Development
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 300px;">
+                <li class="nav-item"><a href="{%url 'osca' %}"  class="nav-link"> Office of Senior Citizen's Affair </a></li>
+            </ul>
+        </li> 
+        <!-- <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-signal fa-lg"></i> Information & Communications</a></li> -->
           <li class="nav-item">
             <a class="nav-link" href="{%url 'mpoc_home'%}"><i class="fas fa-tools fa-lg"></i> Peace & Order Council</a>
           </li>

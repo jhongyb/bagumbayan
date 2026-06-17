@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('usr.urls')),
     path('', include('employee.urls')),
     path('', include('mpoc.urls')),
+    path('', include('osca.urls')),
 ]

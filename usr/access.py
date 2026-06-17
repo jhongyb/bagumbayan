@@ -32,3 +32,16 @@ def restrict_mpoc(message="Not Authorized", redirect_url="/home"):
                 return redirect(redirect_url)
         return _wrapped_view
     return decorator
+
+def restrict_osca(message="Not Authorized", redirect_url="/home"):
+    def decorator(view_func):
+        @wraps(view_func)
+        def _wrapped_view(request, *args, **kwargs):
+            lst = ViewAccess.objects.filter(page=6).values_list('user__username', flat=True)
+            if request.user.username in list(lst):
+                return view_func(request, *args, **kwargs)
+            else:
+                messages.error(request, message)
+                return redirect(redirect_url)
+        return _wrapped_view
+    return decorator

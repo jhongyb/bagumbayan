@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'mpoc',
     'rbim',
     'tech4ed',
+    'osca',
     
 ]
 MIDDLEWARE = [
