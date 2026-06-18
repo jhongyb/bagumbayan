@@ -23,6 +23,8 @@
         <th>BIRTHDAY</th>
         <th>PUROK / SITIO</th>
         <th>BARANGAY</th>
+        <th>STATUS</th>
+        <th>CATEGORY</th>
         <th>ACTIONS</th>
     </thead>
     <tbody>
@@ -37,6 +39,8 @@
         <td>{{i.birthday|date:'M-d-Y'}}</td>
         <td>{{i.purok}}</td>
         <td>{{i.barangay}}</td>
+        <td>{{i.status}}</td>
+        <td>{{i.category}}</td>
         <td>
             <a href="{%url 'updatesenior' pk=i.id %}" class="btn"><i class="fas fa-pen"> </i></a>
             <a href="{%url 'deletesenior' pk=i.id %}" class="btn" ><i class="fas fa-trash" style="color: red;"> </i></a>
