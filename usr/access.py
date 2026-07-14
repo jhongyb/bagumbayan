@@ -33,6 +33,7 @@ def restrict_mpoc(message="Not Authorized", redirect_url="/home"):
         return _wrapped_view
     return decorator
 
+
 def restrict_osca(message="Not Authorized", redirect_url="/home"):
     def decorator(view_func):
         @wraps(view_func)

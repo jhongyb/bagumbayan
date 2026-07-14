@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LGU-BAGUMBAYAN MSWD SITE</title>
+    {%load static%}
+    {%load bootstrap5%}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load humanize %}
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="ico" href="{% static 'img/LOGO.png' %}">
+</head>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: rgb(106, 0, 0);">
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="#" style="font-family: 'Arial';font-size:xx-large;">
+              <img src="{% static 'img/LOGO.png'%}"  style="width:50px;" class="rounded-pill">
+              <img src="{% static 'img/HRMO.jpg'%}"  style="width:50px;" class="rounded-pill">
+                MUNICIPAL WELFARE AND DEVELOPMENT OFFICE
+            </a>
+            {%if user.is_authenticated %}
+            <a class="nav-link" href="{%url 'logout'%}" style="color: white;border-radius: 20px;"> <i class="fas fa-user fa-lg"> </i> Welcome {{user}}   <i class="fas fa-sign-out fa-lg" style="margin-left: 5px;"> </i> Logout</a>
+            {%else%}
+            <a class="nav-link" href="/" style="color: aliceblue;"><i class="fas fa-user"></i> Login</a>
+            {%endif%}
+        </div>
+      </nav>
+  
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" href="/employee"><i class="fas fa-house fa-lg"></i> HOME</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               <i class="fas fa-users fa-lg"></i> OSCA
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 300px;">
+                <li class="nav-item"><a href="{%url 'newemployee'%}"  class="nav-link"> EMPLOYEE  NEW</a></li>
+                <li class="nav-item"><a href="{%url 'employeelist'%}"  class="nav-link"> EMPLOYEE LIST</a></li>
+            </ul>
+        </li> 
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               <i class="fas fa-clock fa-lg"></i>  TIMEKEEPING
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 300px;">
+                <li class="nav-item"><a href="{%url 'dtr_employee'%}"  class="nav-link"> DTR EMPLOYEE</a></li>
+                <li class="nav-item"><a href="{%url 'dtr_department'%}"  class="nav-link"> DTR DEPARTMENT</a></li>
+            </ul>
+        </li> 
+
+    </ul>
+<div class="col">
+                {%if messages%}
+                <ul class="messages" >
+                    {%for m in messages%}
+                        <li  class="alert alert-{{message.level_tag|lower}}" role="alert" style="color: red;">{{m}}{{message.tags}}</li>
+                    {%endfor%}
+                </ul>
+                {%endif%}
+</div>
+<div style="padding: 10px;">
+{%block hr%}
+{%endblock%}
+</div>
+    
+</body>
+<style>
+  .fas{color: teal;}
+  .form-control,.form-select{background-color:#eef0ef;border-color: transparent;}
+  h4{background-color: brown;padding: 5px;color:white;border-radius: 20px;}
+  .container{border-color: brown;}
+</style>
+</html>

@@ -1,0 +1,49 @@
+<p style="text-align: center;">Republic of the Philippines <br>Province of Sultan Kudarat <br>Municipality of Bagumbayan <br>
+OFFICE OF THE SENIOR CITIZEN'S AFFAIR <br>Poblacion, Bagumbayan, Sultan Kudarat
+<br><br>{%if title %} {{title}}{%else%} {%endif%}<br>MASTERLIST</p>
+
+<table>
+    <thead style="background-color: pink;">
+        <th>NO</th>
+        <th>ID NUMBER</th>
+        <th>LAST NAME</th>
+        <th>FIRST NAME</th>
+        <th>MIDDLE NAME</th>
+        <th>EXT NAME</th>
+        <th>BIRTH DATE</th>
+        <th>AGE</th>
+        <th>SEX</th>
+        <th>BARANGAY</th>
+        <th>STATUS</th>
+        <th>CATEGORY</th>
+        <th>MEMBER STATUS</th>
+        <th>DATE ISSUED</th>
+    </thead>
+    <tbody>
+        {%for i in data%}
+        <tr>
+            <td style="text-align: center;">{{forloop.counter}}</td>
+            <td style="text-align: center;">{{i.idno}}</td>
+            <td>{{i.lastname}}</td>
+            <td>{{i.firstname}}</td>
+            <td>{{i.middlename}}</td>
+            <td>{%if i.extname%} {{i.extname}} {%else%} {%endif%}</td>
+            <td style="text-align: center;">{{i.birthday|date:'M-d-Y'}}</td>
+            <td style="text-align: center;">{{i.age}}</td>
+            <td style="text-align: center;">{{i.sex}}</td>
+            <td>{{i.barangay}}</td>
+            <td>{{i.status}}</td>
+            <td>{{i.category}}</td>
+            <td>{%if i.member_status == 'A'%}ACTIVE{%else%} INACTIVE {%endif%}</td>
+            <td style="text-align: center;">{{i.date_issued|date:'M-d-Y'}}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+
+
+<style>
+    table{width: 100%;}
+    *{font-family: arial;font-size: small;}
+    table,th,tr,td{border: 1px solid;border-collapse: collapse;}
+</style>

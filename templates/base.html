@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,6 +45,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 300px;">
                 <li class="nav-item"><a href="{%url 'osca' %}"  class="nav-link"> Office of Senior Citizen's Affair </a></li>
+                 <li class="nav-item"><a href="{%url 'rbim' %}"  class="nav-link"> Gender and Development </a></li>
             </ul>
         </li> 
         <!-- <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-signal fa-lg"></i> Information & Communications</a></li> -->
@@ -53,17 +55,10 @@
     </ul>
 <div>
 {%block main%}
-    <center>
-    <div class="col" style="padding-top: 10%;margin:0">
-                {%if messages%}
-                <ul class="messages" >
-                    {%for m in messages%}
-                        <li  class="alert alert-{{message.level_tag|lower}}" role="alert" style="color: red;list-style: none    ;">{{m}}{{message.tags}}</li>
-                    {%endfor%}
-                </ul>
-                {%endif%}
-  </div>
-  </center>
+
+
+
+  
 {%endblock%}
 </div>
     
@@ -72,4 +67,5 @@
   .fas{color: brown;}
   .form-control,.form-select{background-color: rgb(254, 218, 218);}
 </style>
+
 </html>
