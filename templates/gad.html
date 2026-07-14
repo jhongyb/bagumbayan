@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LGU-BAGUMBAYAN MSWD SITE</title>
+    {%load static%}
+    {%load bootstrap5%}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load humanize %}
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="ico" href="{% static 'img/LOGO.png' %}">
+</head>
+
+
+
+<body class="text-center text-white d-flex flex-column align-items-center pt-4">
+    <img src="{%static 'img/LOGO.png'%}" alt="" width="150px">
+
+    <br>
+    <div class="header-bar mb-4">
+        GENDER AND DEVELOPEMENT
+    </div>
+
+
+    
+    <div class="container" id="maincontainer" style="min-height: 1000px;">
+        <div class="row justify-content-center g-4">
+            
+            <a class="col-md-3" href="#socialsector">
+                <div class="sector-card red-card">
+                    <div class="sector-icon">👥</div>
+                    <h5>SOCIAL DEVELOPMENT SECTOR</h5>
+                </div>
+            </a>
+
+            <a class="col-md-3" href="#">
+                <div class="sector-card yellow-card">
+                    <div class="sector-icon">📊</div>
+                    <h5>ECONOMIC DEVELOPMENT</h5>
+                </div>
+            </a>
+
+            <a class="col-md-3" href="#">
+                <div class="sector-card blue-card">
+                    <div class="sector-icon">🌲</div>
+                    <h5>ENVIRONMENT SECTOR</h5>
+                </div>
+            </a>
+
+            <a class="col-md-3" href="#">
+                <div class="sector-card brown-card">
+                    <div class="sector-icon">🏢</div>
+                    <h5>INSTITUTIONAL SECTOR</h5>
+                </div>
+            </a>
+        </div> 
+    </div>
+<hr>
+<div class="container" style="color: black;">
+<section id="socialsector">
+ <div class="container">
+    <h1>SOCIAL DEVELOPMENT SECTOR</h1>
+<table>
+    <tbody>
+    <!-- {%for i in items%}
+        <tr>
+            <td>{{i.id}}</td>
+            <td>{{i.lastname}}</td>
+        </tr>
+    {%endfor%} -->
+    </tbody>
+</table>
+{{items}}
+ </div>
+</section>
+</div>
+</body>
+</html>

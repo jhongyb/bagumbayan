@@ -16,12 +16,12 @@ import calendar
 
 
 @login_required()
-@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/employee')
+@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/home')
 def employee(request):
     return render(request,'humanresource.html')
 
 @login_required()
-@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/employee')
+@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/home')
 def employeelist(request):
     data=Employee.objects.all().order_by('lastname','firstname')
     try:
@@ -30,13 +30,13 @@ def employeelist(request):
             data=Employee.objects.filter(Q(employee_id__icontains=cri)|Q(lastname__icontains=cri)|
                                         Q(firstname__icontains=cri)|Q(middlename__icontains=cri)
                                         |Q(dept__department__icontains=cri)).order_by('employee_id')
-            return render(request,'employee/employee_list.html',{'data':data})
+            return render(request,'employeehome_list.html',{'data':data})
     except Exception as e:
         messages.error(request,e)
-    return render(request,'employee/employee_list.html',{'data':data})
+    return render(request,'employeehome_list.html',{'data':data})
 
 @login_required()
-@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/employee')
+@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/home')
 def department_dtr_late_undertime(request,pk):
     try:
         data=Employee.objects.all().filter(dept=pk).order_by('type','lastname','firstname')
@@ -68,22 +68,22 @@ def department_dtr_late_undertime(request,pk):
     return department_report(pk,html)
 
 @login_required()
-@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/employee')
+@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/home')
 def Employee_Information(request):
     return render(request,'employee/emp_information.html')
 
 #Time Keeping
 @login_required()
-@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/employee')
+@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/home')
 def Dtr(request):
     return render(request,'employee/dtr.html')
 @login_required()
-@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/employee')
+@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/home')
 def Upload_Punches(request):
     return render(request,'employee/upload_punches.html')
 
 @login_required()
-@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/employee')
+@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/home')
 def Dtr_Employees(request):
     data=Employee.objects.all().order_by('lastname','firstname')
     if request.method=='POST':
@@ -96,13 +96,13 @@ def Dtr_Employees(request):
     return render(request,'employee/dtr_employees.html',{'data':data})
 
 @login_required()
-@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/employee')
+@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/home')
 def Dtr_Department(request):
     data=Department.objects.all().order_by('department')
     return render(request,'employee/dtr_department.html',{'data':data})
 
 @login_required()
-@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/employee')
+@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/home')
 def Dtr_emp_punch_filter(request,pk):
     data=Employee.objects.get(id=pk)
     employee=f' {data.firstname} {data.middlename} {data.lastname} {data.extname}'
@@ -203,7 +203,7 @@ def Dtr_emp_punch_filter(request,pk):
         return render(request,'employee/dtr_emp_punch_filter.html',{'data':data})
     
 @login_required()
-@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/employee')
+@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/home')
 def department_report_filter(request,pk):
         dpt=Department.objects.get(id=pk)
 

@@ -1,0 +1,40 @@
+<p style="text-align: center;">Republic of the Philippines <br>Province of Sultan Kudarat <br>Municipality of Bagumbayan <br>
+OFFICE OF THE SENIOR CITIZEN'S AFFAIR <br>Poblacion, Bagumbayan, Sultan Kudarat
+<br><br>FIGURES OF SENIOR CITIZEN BY BARANGAY</p>
+<style>
+    table{width: 100%;}
+    *{font-family: arial;}
+    /* table,th,tr,td{border: 1px solid;border-collapse: collapse;} */
+    table{border-bottom: 2px solid;border-top:2px solid;;}
+</style>
+
+<table>
+    <thead>
+        <th colspan="2">BARANGAY</th>
+        <th>MALE</th>
+        <th>FEMALE</th>
+        <th>TOTAL</th>
+    </thead>
+    {%regroup data by brgy as bry%}
+    <tbody>
+        {%for b in bry%}
+        <tr><td colspan="5" style="font-family: 'arial black';color: brown;border-top: 1px solid gray;">{{b.grouper}}</td></tr>
+            {%regroup b.list by status__status_description as stat%}
+            {%for s in stat%}  
+            <tr><td colspan="5" style="font-weight: bolder;">{{s.grouper}}</td></tr>
+                {%regroup s.list by category__category_description as cat%}
+                {%for c in cat%}
+                    <tr style="font-family: 'Courier New', Courier, monospace;">
+                    <td>-</td>
+                    <td>{{c.grouper}}</td>
+                    {%for i in c.list%}
+                    <td style="text-align: center;">{{i.M}}</td>
+                    <td style="text-align: center;">{{i.F}}</td>
+                    <td style="text-align: center;">{{i.total}}</td>
+                    {%endfor%}
+                    </tr>
+                {%endfor%}
+            {%endfor%}
+        {%endfor%}
+        </tbody>
+</table>

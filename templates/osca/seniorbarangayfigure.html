@@ -1,0 +1,42 @@
+{%extends 'osca.html'%}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{%block osca%}
+<h5>SENIOR CITIZEN'S FIGURES BY BARANGAY</h5>
+<br>
+
+<div style="width: 90%;margin: auto;">
+<table class="table table-hover">
+    <thead style="background-color: lightblue;">
+        <th>BARANGAY</th>
+        <th>MALE</th>
+        <th>FEMALE</th>
+        <th>TOTAL</th>
+        <th style="text-align: center;">ACTIONS</th>
+    </thead>
+    <tbody>
+       {%for i in count%}
+       <tr>
+        <td>{{i.brgy}}</td>
+        <td>{{i.male}}</td>
+        <td>{{i.female}}</td>
+        <td>{{i.total}}</td>
+        <td style="text-align: right;">
+            <a href="{%url 'Senior_Figures_barangay' pk=i.barangay%}" class="btn btn-outline-primary" target="_blank"><i class="fas fa-file-pdf" style="color: red;"> </i> FIGURE </a>
+            <a href="{%url 'Senior_listby_barangay' pk=i.barangay%}" class="btn btn-outline-primary" target="_blank"><i class="fas fa-file-pdf" style="color: red;"> </i> LIST </a>
+        </td>
+       </tr>
+
+       {%endfor%}
+       <tfoot style="background-color: lightblue;">
+        <tr style="font-weight: bolder;">
+        <td colspan="3">TOTAL</td>
+        <td >{{tcount}}</td>
+        <td style="text-align: right;">
+            <a href="{%url 'senior_figures'%}" class="btn btn-outline-primary" target="_blank"><i class="fas fa-file-pdf" style="color: red;"> </i> OVER ALL FIGURES</a>
+        </td>
+       </tr>
+       </tfoot>
+</table>
+</div>
+{%endblock%}

@@ -36,10 +36,18 @@
           <a class="nav-link" href="{%url 'employee' %}"><img src="{% static 'img/HRMO.jpg'%}"  style="width:30px;" class="rounded-pill"> Human Resourses</a>
         </li>
 
-        <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-building fa-lg"></i> General Services</a></li>
+        <!-- <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-building fa-lg"></i> General Services</a></li> -->
         <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-heartbeat fa-lg"></i> Health</a></li>
-        <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-universal-access fa-lg"></i> Social & Development</a></li>
-        <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-signal fa-lg"></i> Information & Communications</a></li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               <i class="fas fa-users fa-lg"></i> Social & Development
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 300px;">
+                <li class="nav-item"><a href="{%url 'osca' %}"  class="nav-link"> Office of Senior Citizen's Affair </a></li>
+                 <li class="nav-item"><a href="{%url 'rbim' %}"  class="nav-link"> Gender and Development </a></li>
+            </ul>
+        </li> 
+        <!-- <li class="nav-item"><a href=""  class="nav-link"><i class="fas fa-signal fa-lg"></i> Information & Communications</a></li> -->
           <li class="nav-item">
             <a class="nav-link" href="{%url 'mpoc_home'%}"><i class="fas fa-tools fa-lg"></i> Peace & Order Council</a>
           </li>
@@ -57,6 +65,156 @@
                 {%endif%}
   </div>
   </center>
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Card 1 -->
+            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Total Personnel</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mt-1">142</h3>
+                    <span class="text-xs text-green-600 font-medium"><i class="fa-solid fa-arrow-trend-up"></i> +3% this month</span>
+                </div>
+                <div class="p-3 bg-blue-50 text-blue-600 rounded-lg">
+                    <i class="fa-solid fa-user-tie text-xl"></i>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Health Programs</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mt-1">12</h3>
+                    <span class="text-xs text-gray-500 font-medium">Active campaigns</span>
+                </div>
+                <div class="p-3 bg-red-50 text-red-600 rounded-lg">
+                    <i class="fa-solid fa-kit-medical text-xl"></i>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Social Cases</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mt-1">3,410</h3>
+                    <span class="text-xs text-green-600 font-medium"><i class="fa-solid fa-arrow-trend-up"></i> +12 new today</span>
+                </div>
+                <div class="p-3 bg-emerald-50 text-emerald-600 rounded-lg">
+                    <i class="fa-solid fa-hand-holding-heart text-xl"></i>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Council Clearances</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mt-1">48</h3>
+                    <span class="text-xs text-amber-600 font-medium"><i class="fa-solid fa-clock"></i> 5 Pending approval</span>
+                </div>
+                <div class="p-3 bg-amber-50 text-amber-600 rounded-lg">
+                    <i class="fa-solid fa-file-shield text-xl"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Analytics & Table Grid -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Left Data/Chart Visualization Mockup -->
+            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs lg:col-span-2">
+                <div class="flex justify-between items-center mb-4">
+                    <h4 class="font-bold text-gray-800 text-base">Center Resource Utilization</h4>
+                    <select class="text-xs bg-gray-50 border border-gray-300 rounded px-2 py-1 text-gray-600 focus:outline-none">
+                        <option>This Week</option>
+                        <option>This Month</option>
+                    </select>
+                </div>
+                <!-- Simulated Chart Area -->
+                <div class="h-64 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400">
+                    <i class="fa-solid fa-chart-line text-3xl mb-2"></i>
+                    <p class="text-xs">Data Visualization Graphics Container</p>
+                </div>
+            </div>
+
+            <!-- Right Sidebar Panel: Recent Activities -->
+            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs">
+                <h4 class="font-bold text-gray-800 text-base mb-4">System Log Highlights</h4>
+                <div class="space-y-4">
+                    <div class="flex gap-3 text-xs">
+                        <div class="w-2 h-2 rounded-full bg-blue-500 mt-1 shrink-0"></div>
+                        <div>
+                            <p class="font-semibold text-gray-700">HR profile updated</p>
+                            <p class="text-gray-400">Juan Dela Cruz • 12 mins ago</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 text-xs">
+                        <div class="w-2 h-2 rounded-full bg-red-500 mt-1 shrink-0"></div>
+                        <div>
+                            <p class="font-semibold text-gray-700">New health record submission</p>
+                            <p class="text-gray-400">Barangay Zone 3 Desk • 45 mins ago</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 text-xs">
+                        <div class="w-2 h-2 rounded-full bg-amber-500 mt-1 shrink-0"></div>
+                        <div>
+                            <p class="font-semibold text-gray-700">Peace & Order report filed</p>
+                            <p class="text-gray-400">Incident #2026-A9 • 2 hours ago</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 text-xs">
+                        <div class="w-2 h-2 rounded-full bg-emerald-500 mt-1 shrink-0"></div>
+                        <div>
+                            <p class="font-semibold text-gray-700">System Backup Completed</p>
+                            <p class="text-gray-400">Automated Cron • 4 hours ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Data Table Section -->
+        <section class="bg-white rounded-xl border border-gray-200 shadow-xs overflow-hidden">
+            <div class="px-5 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h4 class="font-bold text-gray-800 text-base">Recent Registry & Filings</h4>
+                <button class="text-xs text-custom-blue hover:underline font-semibold">View All</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-gray-600 whitespace-nowrap">
+                    <thead class="bg-gray-50 text-gray-500 font-semibold uppercase tracking-wider border-b border-gray-200">
+                        <tr>
+                            <th class="px-6 py-3">Reference ID</th>
+                            <th class="px-6 py-3">Department/Sector</th>
+                            <th class="px-6 py-3">Responsible Officer</th>
+                            <th class="px-6 py-3">Status</th>
+                            <th class="px-6 py-3">Date Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50/70 transition">
+                            <td class="px-6 py-4 font-medium text-gray-900">#HR-2026-0041</td>
+                            <td class="px-6 py-4">Human Resources</td>
+                            <td class="px-6 py-4">A. Santos</td>
+                            <td class="px-6 py-4"><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full font-medium">Approved</span></td>
+                            <td class="px-6 py-4 text-gray-400">June 23, 2026</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50/70 transition">
+                            <td class="px-6 py-4 font-medium text-gray-900">#HLT-2026-0912</td>
+                            <td class="px-6 py-4">Health & Wellness</td>
+                            <td class="px-6 py-4">Dr. E. Perez</td>
+                            <td class="px-6 py-4"><span class="px-2 py-1 bg-amber-100 text-amber-800 rounded-full font-medium">Pending Review</span></td>
+                            <td class="px-6 py-4 text-gray-400">June 22, 2026</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50/70 transition">
+                            <td class="px-6 py-4 font-medium text-gray-900">#POC-2026-1104</td>
+                            <td class="px-6 py-4">Peace & Order</td>
+                            <td class="px-6 py-4">Officer B. Ramos</td>
+                            <td class="px-6 py-4"><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full font-medium">Approved</span></td>
+                            <td class="px-6 py-4 text-gray-400">June 21, 2026</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+
+  
 {%endblock%}
 </div>
     

@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'mpoc',
     'rbim',
     'tech4ed',
+    'osca',
+    'GAD'
     
 ]
 MIDDLEWARE = [
@@ -70,9 +72,9 @@ WSGI_APPLICATION = 'bict.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'bagumbayan',
         'USER': 'postgres',
-        'PASSWORD': 'dtr2026',
+        'PASSWORD': 'dingdangdong',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     },
