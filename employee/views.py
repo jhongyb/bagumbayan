@@ -33,7 +33,7 @@ def employeelist(request):
             return render(request,'employeehome_list.html',{'data':data})
     except Exception as e:
         messages.error(request,e)
-    return render(request,'employeehome_list.html',{'data':data})
+    return render(request,'employee/employee_list.html',{'data':data})
 
 @login_required()
 @restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/home')
@@ -132,7 +132,7 @@ def Dtr_emp_punch_filter(request,pk):
                 t=0
                 for i in a:
                         start_dt = datetime.strptime(opt['startdate'], '%Y-%m-%d')
-                        start_month = start_dt.month
+                        start_month = start_dt.month if start_dt.month == 31 else start_dt.month + 1
                         start_year = start_dt.year
                         dyt=dtr_functions(i).loop_date(start_month,start_year)
                         d_data=punch_look.get(dyt,{})
@@ -178,7 +178,7 @@ def Dtr_emp_punch_filter(request,pk):
                 for i in a:
                         start_dt = datetime.strptime(opt['startdate'], '%Y-%m-%d')
                         my=start_dt.strftime("%B %Y")
-                        start_month = start_dt.month
+                        start_month = start_dt.month if start_dt.month == 31 else start_dt.month + 1
                         start_year = start_dt.year
                         dyt=dtr_functions(i).loop_date(start_month,start_year)
                         d_data=punch_look.get(dyt,{})
