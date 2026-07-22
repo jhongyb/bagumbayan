@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required,user_passes_test
 from usr.access import restrict_employee
 from .models import Employee,Department,Biometric
@@ -132,7 +132,7 @@ def Dtr_emp_punch_filter(request,pk):
                 t=0
                 for i in a:
                         start_dt = datetime.strptime(opt['startdate'], '%Y-%m-%d')
-                        start_month = start_dt.month if start_dt.month == 31 else start_dt.month + 1
+                        start_month = start_dt.month
                         start_year = start_dt.year
                         dyt=dtr_functions(i).loop_date(start_month,start_year)
                         d_data=punch_look.get(dyt,{})
@@ -178,7 +178,7 @@ def Dtr_emp_punch_filter(request,pk):
                 for i in a:
                         start_dt = datetime.strptime(opt['startdate'], '%Y-%m-%d')
                         my=start_dt.strftime("%B %Y")
-                        start_month = start_dt.month if start_dt.month == 31 else start_dt.month + 1
+                        start_month = start_dt.month
                         start_year = start_dt.year
                         dyt=dtr_functions(i).loop_date(start_month,start_year)
                         d_data=punch_look.get(dyt,{})
@@ -202,119 +202,325 @@ def Dtr_emp_punch_filter(request,pk):
     else:
         return render(request,'employee/dtr_emp_punch_filter.html',{'data':data})
     
-@login_required()
-@restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/home')
-def department_report_filter(request,pk):
-        dpt=Department.objects.get(id=pk)
+# @login_required()
+# @restrict_employee(message='Not Authorized to Human Resource Page!',redirect_url='/home')
+# def department_report_filter(request,pk):
+#         dpt=Department.objects.get(id=pk)
 
-        if request.method=='POST':
-                data=request.POST
-                option=data['opt']
-                date_start=data['startdate']
-                date_end=data['enddate']
-                emp_typ=data['emptype']
-                if option=='2':
-                    result=[]
-                    emp=Employee.objects.all().filter(dept=pk,type=emp_typ).order_by('type','lastname','firstname')
-                    punches=Biometric.objects.filter(bio_date__range=(date_start,date_end))
-                    empdf=pd.DataFrame(list(emp.values()))
-                    print(pd.col)
-                    biodf=pd.DataFrame(list(punches.values()))
-                    df = pd.merge(empdf, biodf, left_on='biometric_number', right_on='bio_id',  how='left')
-                    df['bio_date']=df['bio_date'].astype(str)
-                    if punches:
-                        pivot_df=df.pivot_table(index=('bio_date','biometric_number','dept_id','lastname','firstname','middlename','extname','type'),columns=('bio_punchstate'),values='bio_time',aggfunc='first')
-                        required_cols = ['Check In', 'Break Out', 'Break In', 'Check Out']
-                        pivot_df = pivot_df.reindex(columns=required_cols, fill_value='').fillna('')
-                    else:
-                         messages.error(request,'No Data Found!')
-                         return redirect('department_report_filter')
+#         if request.method=='POST':
+#                 data=request.POST
+#                 option=data['opt']
+#                 date_start=data['startdate']
+#                 date_end=data['enddate']
+#                 emp_typ=data['emptype']
+#                 if option == '2':
+#                     result = []
+#                     emp = Employee.objects.filter(dept=pk, type=emp_typ).order_by('type', 'lastname', 'firstname')
+#                     punches = Biometric.objects.filter(bio_date__range=(date_start, date_end))
+
+#                     # Convert QuerySets to DataFrames
+#                     empdf = pd.DataFrame(list(emp.values()))
+                    
+#                     if empdf.empty:
+#                         messages.error(request, 'No Employees Found!')
+#                         return redirect('department_report_filter')
+
+#                     # Construct standard employee name column
+#                     empdf['emp_name'] = empdf.apply(
+#                         lambda r: f"{r['lastname']}, {r['firstname']} {r['middlename']} {r['extname']}".strip(), 
+#                         axis=1
+#                     )
+
+#                     biodf = pd.DataFrame(list(punches.values()))
+
+#                     # Process Biometrics if logs exist
+#                     if not biodf.empty:
+#                         df = pd.merge(empdf, biodf, left_on='biometric_number', right_on='bio_id', how='inner')
+#                         df['bio_date'] = df['bio_date'].astype(str)
+
+#                         pivot_df = df.pivot_table(
+#                             index=('bio_date', 'biometric_number', 'emp_name', 'type'),
+#                             columns=('bio_punchstate'),
+#                             values='bio_time',
+#                             aggfunc='first'
+#                         )
                         
-                    flat_df = pivot_df.reset_index()
-                    # 2. Calculate CIN and COUT for each individual row
-                    def calculate_cin(row):
-                        return Late_Undertime("CI", row['Check In'], row['Break Out'], row['Break In'], row['Check Out']).checkin()
+#                         required_cols = ['Check In', 'Break Out', 'Break In', 'Check Out']
+#                         pivot_df = pivot_df.reindex(columns=required_cols, fill_value='').fillna('')
+#                         flat_df = pivot_df.reset_index()
 
-                    def calculate_cout(row):
-                        return Late_Undertime("CO", row['Check In'], row['Break Out'], row['Break In'], row['Check Out']).checkout()
-                    flat_df['CIN'] = flat_df.apply(calculate_cin, axis=1)
-                    flat_df['COUT'] = flat_df.apply(calculate_cout, axis=1)
-                    # 3. Create a unique Employee Identifier/Name string
-                    flat_df['emp_name'] = flat_df.apply(
-                        lambda r: f"{r['lastname']}, {r['firstname']} {r['middlename']} {r['extname']}".strip(), 
+#                         # Calculate CIN and COUT
+#                         flat_df['CIN'] = flat_df.apply(
+#                             lambda r: Late_Undertime("CI", r['Check In'], r['Break Out'], r['Break In'], r['Check Out']).checkin(), 
+#                             axis=1
+#                         )
+#                         flat_df['COUT'] = flat_df.apply(
+#                             lambda r: Late_Undertime("CO", r['Check In'], r['Break Out'], r['Break In'], r['Check Out']).checkout(), 
+#                             axis=1
+#                         )
+
+#                         # Group by employee to sum up CIN and COUT values
+#                         summary_df = flat_df.groupby(['biometric_number', 'emp_name', 'type'], as_index=False)[['CIN', 'COUT']].sum()
+
+#                         # Merge calculations back into the main employee DataFrame so ALL employees remain
+#                         final_df = pd.merge(empdf[['biometric_number', 'emp_name', 'type']], summary_df, on=['biometric_number', 'emp_name', 'type'], how='left')
+#                         final_df[['CIN', 'COUT']] = final_df[['CIN', 'COUT']].fillna(0)
+#                     else:
+#                         # If no biometric logs exist at all, initialize default 0 totals for everyone
+#                         final_df = empdf[['emp_name', 'type']].copy()
+#                         final_df['CIN'] = 0.0
+#                         final_df['COUT'] = 0.0
+
+#                     final_df = final_df.sort_values(by=['type', 'emp_name'], ascending=[True, True])
+
+#                     # Convert aggregated dataframe to template dict list
+#                     for _, row in final_df.iterrows():
+#                         total_min = round(row['CIN'] + row['COUT'])
+#                         days = total_min // 480 
+#                         remaining_min_after_days = total_min % 480
+#                         hrs = remaining_min_after_days // 60
+#                         minu = remaining_min_after_days % 60
+                        
+#                         total_format = f"Days: {days} | Hours: {hrs} | Minutes: {minu:02}"
+                        
+#                         result.append({
+#                             'emp': row['emp_name'].upper(),
+#                             'dept': dpt.description,
+#                             'typ': row['type'],
+#                             'CIN': min_hr(row['CIN']) if row['CIN'] > 0 else '',
+#                             'COUT': min_hr(row['COUT']) if row['COUT'] > 0 else '',
+#                             'TOTAL': total_format if total_min > 0 else '',
+#                         })
+
+#                     html = render_to_string('employee/lu_report.html', {
+#                         'res': result,
+#                         'dept': dpt,
+#                         'sd': datetime.strptime(date_start, '%Y-%m-%d').strftime('%B %d, %Y'),
+#                         'ed': datetime.strptime(date_end, '%Y-%m-%d').strftime('%B %d, %Y')
+#                     })
+#                 return department_report(pk, html)
+#         return render(request,'employee/dept_hours_filter.html',{'dpt':dpt})
+
+def department_report_filter(request, pk):
+    dpt = get_object_or_404(Department, id=pk)
+    if request.method == 'POST':
+        data = request.POST
+        option = data.get('opt')
+        date_start = data.get('startdate')
+        date_end = data.get('enddate')
+        emp_typ = data.get('emptype')
+
+        if option == '2':
+            result = []
+            emp = Employee.objects.filter(dept=pk, type=emp_typ).order_by('type', 'lastname', 'firstname')
+            
+            # 1. Handle empty employee list immediately
+            if not emp.exists():
+                messages.error(request, 'No Employees Found!')
+                return redirect('department_report_filter', pk=pk)
+
+            # Convert employees to DataFrame safely
+            empdf = pd.DataFrame(list(emp.values()))
+
+            # Safely handle potential None/NaN values in name fields
+            for col in ['lastname', 'firstname', 'middlename', 'extname']:
+                if col in empdf.columns:
+                    empdf[col] = empdf[col].fillna('')
+                else:
+                    empdf[col] = ''
+
+            empdf['emp_name'] = empdf.apply(
+                lambda r: f"{r['lastname']}, {r['firstname']} {r['middlename']} {r['extname']}".strip(), 
+                axis=1
+            )
+
+            # Query biometrics filtered by date range
+            punches = Biometric.objects.filter(bio_date__range=(date_start, date_end))
+            biodf = pd.DataFrame(list(punches.values())) if punches.exists() else pd.DataFrame()
+
+            # Process Biometrics if logs exist
+            if not biodf.empty and 'biometric_number' in empdf.columns:
+                df = pd.merge(empdf, biodf, left_on='biometric_number', right_on='bio_id', how='inner')
+                
+                if not df.empty:
+                    df['bio_date'] = df['bio_date'].astype(str)
+
+                    pivot_df = df.pivot_table(
+                        index=['bio_date', 'biometric_number', 'emp_name', 'type'],
+                        columns=['bio_punchstate'],
+                        values='bio_time',
+                        aggfunc='first'
+                    )
+                    
+                    required_cols = ['Check In', 'Break Out', 'Break In', 'Check Out']
+                    # Reindex columns safely to guarantee required columns exist
+                    pivot_df = pivot_df.reindex(columns=required_cols).fillna('')
+                    flat_df = pivot_df.reset_index()
+
+                    # Calculate CIN and COUT
+                    flat_df['CIN'] = flat_df.apply(
+                        lambda r: Late_Undertime("CI", r.get('Check In', ''), r.get('Break Out', ''), r.get('Break In', ''), r.get('Check Out', '')).checkin(), 
                         axis=1
                     )
-                    # 4. Group by Employee and SUM the CIN and COUT columns
-                    summary_df = flat_df.groupby(['emp_name', 'type'], as_index=False)[['CIN', 'COUT']].sum()
-                    summary_df = summary_df.sort_values(by=['type', 'emp_name'], ascending=[True, True])
+                    flat_df['COUT'] = flat_df.apply(
+                        lambda r: Late_Undertime("CO", r.get('Check In', ''), r.get('Break Out', ''), r.get('Break In', ''), r.get('Check Out', '')).checkout(), 
+                        axis=1
+                    )
 
-                    # 5. Convert the final aggregated dataframe to your desired list of dicts format
-                    for _, row in summary_df.iterrows():
-                            total_min=round(row['CIN'] + row['COUT'])
-                            days = total_min // 480 
-                            remaining_min_after_days = total_min % 480
-                            # 2. Calculate Hours from the remaining minutes
-                            hrs = remaining_min_after_days // 60
-                            # 3. Calculate Minutes from what's left over
-                            minu = remaining_min_after_days % 60
-                            # 4. Format your final output string
-                            total_format = f"Days: {days} | Hours: {hrs} | Minutes: {minu:02}"
-                            result.append({
-                                'emp': row['emp_name'].upper(),
-                                'dept':dpt.description,
-                                'typ': row['type'],
-                                'CIN': min_hr(row['CIN']),
-                                'COUT': min_hr(row['COUT']),
-                                'TOTAL':total_format if total_min > 0 else '',
-                            })
-                    html=render_to_string('employee/lu_report.html',{'res':result,'dept':dpt,'sd':datetime.strptime(date_start,'%Y-%m-%d').strftime('%B %d, %Y'),'ed':
-                                                                    datetime.strptime(date_end,'%Y-%m-%d').strftime('%B %d, %Y')})
-                    return department_report(pk,html)  
+                    # Group by employee to sum up CIN and COUT values
+                    summary_df = flat_df.groupby(['biometric_number', 'emp_name', 'type'], as_index=False)[['CIN', 'COUT']].sum()
+
+                    # Merge back so ALL employees are retained
+                    final_df = pd.merge(
+                        empdf[['biometric_number', 'emp_name', 'type']], 
+                        summary_df, 
+                        on=['biometric_number', 'emp_name', 'type'], 
+                        how='left'
+                    )
+                    final_df[['CIN', 'COUT']] = final_df[['CIN', 'COUT']].fillna(0)
                 else:
-                    employee=Employee.objects.filter(dept=dpt,type=emp_typ)
-                    allempdtr=[]
-                    start_dt = datetime.strptime(date_start, '%Y-%m-%d')
-                    my=start_dt.strftime("%B %Y")
-                    start_month = start_dt.month
-                    start_year = start_dt.year                    
-                    _, total_days = calendar.monthrange(start_year, start_month)
- 
-                    allempdtr = []
-                    for emp in employee:
-                        biometric = Biometric.objects.filter(bio_id=emp.biometric_number, bio_date__range=(date_start, date_end))
-                        if biometric.exists():
-                             df = pd.DataFrame(list(biometric.values('bio_date', 'bio_punchstate', 'bio_time')))
-                             df['bio_date'] = df['bio_date'].apply(lambda x: x.strftime('%Y-%m-%d') if hasattr(x, 'strftime') else str(x))
-                             pivot_df = df.pivot_table(index='bio_date', columns='bio_punchstate', values='bio_time', aggfunc='first')
-                             r_cols = ['Check In', 'Break Out', 'Break In', 'Check Out']
-                             r_cols = ['Check In', 'Break Out', 'Break In', 'Check Out']
-                             pivot_df = pivot_df.reindex(columns=r_cols, fill_value='')
-                             punch_look = pivot_df.to_dict('index')
-                        else:
-                            punch_look = {}
-                        emp_content=[]
-                        for i in range(1,total_days + 1):
-                            dyt=dtr_functions(i).loop_date(start_month,start_year)
-                            d_data=punch_look.get(dyt,{})
-                            emp_content.append({
-                                    'd':dyt,
-                                    'i':i,  
-                                    'cin':d_data.get('Check In',''),
-                                    'bout':d_data.get('Break Out',''),  
-                                    'bin':d_data.get('Break In',''),  
-                                    'cout':d_data.get('Check Out',''),                     
-                                    'wday':dtr_functions(i).satsun(start_month,start_year)
+                    final_df = empdf[['emp_name', 'type']].copy()
+                    final_df['CIN'] = 0.0
+                    final_df['COUT'] = 0.0
+            else:
+                # If no biometric logs exist at all
+                final_df = empdf[['emp_name', 'type']].copy()
+                final_df['CIN'] = 0.0
+                final_df['COUT'] = 0.0
 
-                            })
-                        allempdtr.append({
-                                'emp_info':emp,'dtr_rows':emp_content
-                            })
-                    context={'emp':allempdtr,'my':my}
-                    html=render_to_string('employee/deptdtr_template.html',context)
-                    return emp_dtr(dpt,html)
+            final_df = final_df.sort_values(by=['type', 'emp_name'], ascending=[True, True])
+
+            # Convert aggregated dataframe to template list
+            for _, row in final_df.iterrows():
+                cin_val = row.get('CIN', 0)
+                cout_val = row.get('COUT', 0)
+                total_min = round(cin_val + cout_val)
+                
+                days = total_min // 480 
+                remaining_min_after_days = total_min % 480
+                hrs = remaining_min_after_days // 60
+                minu = remaining_min_after_days % 60
+                
+                total_format = f"Days: {days} | Hours: {hrs} | Minutes: {minu:02}"
+                
+                result.append({
+                    'emp': str(row['emp_name']).upper(),
+                    'dept': dpt.description,
+                    'typ': row['type'],
+                    'CIN': min_hr(cin_val) if cin_val > 0 else '',
+                    'COUT': min_hr(cout_val) if cout_val > 0 else '',
+                    'TOTAL': total_format if total_min > 0 else '',
+                })
+
+            html = render_to_string('employee/lu_report.html', {
+                'res': result,
+                'dept': dpt,
+                'sd': datetime.strptime(date_start, '%Y-%m-%d').strftime('%B %d, %Y'),
+                'ed': datetime.strptime(date_end, '%Y-%m-%d').strftime('%B %d, %Y')
+            })
+            return department_report(pk, html)
+
         else:
-            return render(request,'employee/dept_hours_filter.html',{'dpt':dpt})
+                    # employee=Employee.objects.filter(dept=dpt,type=emp_typ)
+                    # allempdtr=[]
+                    # start_dt = datetime.strptime(date_start, '%Y-%m-%d')
+                    # my=start_dt.strftime("%B %Y")
+                    # start_month = start_dt.month
+                    # start_year = start_dt.year                    
+                    # _, total_days = calendar.monthrange(start_year, start_month)
+ 
+                    # allempdtr = []
+                    # for emp in employee:
+                    #     biometric = Biometric.objects.filter(bio_id=emp.biometric_number, bio_date__range=(date_start, date_end))
+                    #     if biometric.exists():
+                    #          df = pd.DataFrame(list(biometric.values('bio_date', 'bio_punchstate', 'bio_time')))
+                    #          df['bio_date'] = df['bio_date'].apply(lambda x: x.strftime('%Y-%m-%d') if hasattr(x, 'strftime') else str(x))
+                    #          pivot_df = df.pivot_table(index='bio_date', columns='bio_punchstate', values='bio_time', aggfunc='first')
+                    #          r_cols = ['Check In', 'Break Out', 'Break In', 'Check Out']
+                    #          r_cols = ['Check In', 'Break Out', 'Break In', 'Check Out']
+                    #          pivot_df = pivot_df.reindex(columns=r_cols, fill_value='')
+                    #          punch_look = pivot_df.to_dict('index')
+                    #     else:
+                    #         punch_look = {}
+                    #     emp_content=[]
+                    #     for i in range(1,total_days + 1):
+                    #         dyt=dtr_functions(i).loop_date(start_month,start_year)
+                    #         d_data=punch_look.get(dyt,{})
+                    #         emp_content.append({
+                    #                 'd':dyt,
+                    #                 'i':i,  
+                    #                 'cin':d_data.get('Check In',''),
+                    #                 'bout':d_data.get('Break Out',''),  
+                    #                 'bin':d_data.get('Break In',''),  
+                    #                 'cout':d_data.get('Check Out',''),                     
+                    #                 'wday':dtr_functions(i).satsun(start_month,start_year)
+
+                    #         })
+                    #     allempdtr.append({
+                    #             'emp_info':emp,'dtr_rows':emp_content
+                    #         })
+                    # context={'emp':allempdtr,'my':my}
+                    # html=render_to_string('employee/deptdtr_template.html',context)
+                    # return emp_dtr(dpt,html)
+
+                employee = Employee.objects.filter(dept=dpt, type=emp_typ)
+                allempdtr = []
+                start_dt = datetime.strptime(date_start, '%Y-%m-%d')
+                my = start_dt.strftime("%B %Y")
+                start_month = start_dt.month
+                start_year = start_dt.year                    
+                _, actual_days = calendar.monthrange(start_year, start_month)
+
+                allempdtr = []
+                for emp in employee:
+                    biometric = Biometric.objects.filter(bio_id=emp.biometric_number, bio_date__range=(date_start, date_end))
+                    if biometric.exists():
+                        df = pd.DataFrame(list(biometric.values('bio_date', 'bio_punchstate', 'bio_time')))
+                        df['bio_date'] = df['bio_date'].apply(lambda x: x.strftime('%Y-%m-%d') if hasattr(x, 'strftime') else str(x))
+                        
+                        # Avoid redundant duplicate definition of r_cols
+                        r_cols = ['Check In', 'Break Out', 'Break In', 'Check Out']
+                        pivot_df = df.pivot_table(index='bio_date', columns='bio_punchstate', values='bio_time', aggfunc='first')
+                        pivot_df = pivot_df.reindex(columns=r_cols, fill_value='')
+                        punch_look = pivot_df.to_dict('index')
+                    else:
+                        punch_look = {}
+
+                    emp_content = []
+                    
+                    # Always loop 31 days to ensure a complete 31-row DTR
+                    for i in range(1, 32):
+                        if i <= actual_days:
+                            # Valid calendar date
+                            dyt = dtr_functions(i).loop_date(start_month, start_year)
+                            wday = dtr_functions(i).satsun(start_month, start_year)
+                            d_data = punch_look.get(dyt, {})
+                        else:
+                            # Blank values for padding days beyond the end of the month
+                            dyt = ''
+                            wday = ''
+                            d_data = {}
+
+                        emp_content.append({
+                            'd': dyt,
+                            'i': i,  
+                            'cin': d_data.get('Check In', ''),
+                            'bout': d_data.get('Break Out', ''),  
+                            'bin': d_data.get('Break In', ''),  
+                            'cout': d_data.get('Check Out', ''),                     
+                            'wday': wday
+                        })
+
+                    allempdtr.append({
+                        'emp_info': emp,
+                        'dtr_rows': emp_content
+                    })
+
+                context = {'emp': allempdtr, 'my': my}
+                html = render_to_string('employee/deptdtr_template.html', context)
+                return emp_dtr(dpt, html)
+    return render(request, 'employee/dept_hours_filter.html', {'dpt': dpt})
 
 
-           
+         
                 
