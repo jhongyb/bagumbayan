@@ -141,7 +141,7 @@ def updatesenior(request,pk):
 @login_required()
 @restrict_osca(message='Not Authorized to OSCA Page!',redirect_url='/home')
 def deletesenior(request,pk):
-    eo=Osca_Informations.objects.get(id=pk)
+    eo=get_object_or_404(Osca_Informations,id=pk)
     if eo:
         eo.delete()
         messages.success(request,'Senior Citizen Deleted!')

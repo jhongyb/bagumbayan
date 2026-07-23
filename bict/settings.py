@@ -13,10 +13,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from django.contrib.messages import constants as messages
 import os
+import whitenoise
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-=nvm%@=i0v80rc%obp^4bvv%1-6507&8^!#($c&+88z$c7*kbr'
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['127.0.0.1','localhost','tech4ed.ictbagumbayan.us']
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 ROOT_URLCONF = 'bict.urls'
 TEMPLATES = [
@@ -107,7 +109,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 STATIC_URL = 'static/'
-STATICFILES_DIRS=[BASE_DIR/'static']
+# STATICFILES_DIRS=[BASE_DIR/'static']
+STATIC_ROOT=BASE_DIR / "static"
 MEDIA_URL='media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
